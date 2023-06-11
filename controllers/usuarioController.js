@@ -24,7 +24,7 @@ const registraUsuario = async(req,res)=>{
 const autenticar = async(req,res) =>{
     //comprobar que el usuario exista
     const {email,password} = req.body
-    const validarUsuario = await Usuario.findOne(email)
+    const validarUsuario = await Usuario.findOne({email})
     if(!validarUsuario){
         const error = new Error("Usuario no registrado")
         return res.status(400).json({msg: error.message})
@@ -88,7 +88,7 @@ const comprobarToken = async(req,res) => {
         res.json({msg: "El usuario existe y el token es válido"})     
     }
 }
-//Almacenar el nuevo token
+//Almacenar la nueva contraseña
 const almacenarPassword = async(req,res)=>{
     const {token} = req.params
     const {password} = req.body
@@ -102,11 +102,17 @@ const almacenarPassword = async(req,res)=>{
     }
 
 }
+const perfil = async(req,res)=>{
+    const {usuario} = req
+    res.json(usuario)
+
+}
 export {
     registraUsuario,
     autenticar,
     confirmar,
     resetearPassword,
     comprobarToken,
-    almacenarPassword
+    almacenarPassword,
+    perfil
 }
